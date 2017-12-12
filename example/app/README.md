@@ -1,2 +1,3 @@
-Example app
-This app serves as a testing app for your library project
+# Example app
+You can access the demo here:
+[https://www.acedzn.com/ex/react-magisto-player/](https://www.acedzn.com/ex/react-magisto-player/)

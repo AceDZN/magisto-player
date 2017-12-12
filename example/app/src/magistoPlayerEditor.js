@@ -103,7 +103,7 @@ export class MagistoPlayerEditor extends Component {
 
                     <hr />
                     <br />
-                    <p>Color scheme:</p>
+                    <p className="text-primary"><strong>Color scheme:</strong></p>
                     <div className="form-group row">
                         <label htmlFor="controlColors" className="col-md-6 col-form-label">Controls Color</label>
                         <div className="col-md-6">
@@ -150,12 +150,20 @@ export class MagistoPlayerEditor extends Component {
                         </div>
 
                     </div>
-                    <fieldset >
-                        Some videos you can test with:
-                        <ul>
-                            <li onClick={()=>this.changeVideo({hash:'K1QFalAXRD49XU4B',ratio:'3:4'})}>Portrait video</li>
-                        </ul>
-                    </fieldset>
+                    <hr />
+                    <br />
+                    <p className="text-primary"><strong>Some videos you can test with:</strong></p>
+                    <ul className="example_videos_list row">
+                        <li onClick={()=>this.changeVideo({hash:'K1QFalAXRD49XU4B',ratio:'3:4'})} className="col">
+                            <div className="alert alert-success" role="alert"><strong>Portrait</strong></div>
+                        </li>
+                        <li onClick={()=>this.changeVideo({hash:'LwAaK0QBBzw9WEdhCzE',ratio:'16:9'})} className="col">
+                            <div className="alert alert-info" role="alert"><strong>Landscape</strong></div>
+                        </li>
+                        <li onClick={()=>this.changeVideo({hash:'N0ARJFMBQWwoXRVpYw',ratio:'1:1'})} className="col">
+                            <div className="alert alert-warning" role="alert"><strong>Square</strong></div>
+                        </li>
+                    </ul>
                 </form>
         );
     }

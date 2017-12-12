@@ -4,7 +4,8 @@
   "description": "An example for testing your new library",
   "scripts": {
     "start": "webpack-dev-server",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "build": "webpack"
   },
   "license": "MIT",
   "devDependencies": {

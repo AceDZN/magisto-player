@@ -33,9 +33,12 @@ class MyComponent extends React.Component {
 ## Properties editor
 There is a little demo of the component with a nice form to config your MagistoPlayer appearance.
 you can use it by launching the example app inside this npm package.
+you can access the Live Preview here:
+[https://www.acedzn.com/ex/react-magisto-player/](https://www.acedzn.com/ex/react-magisto-player/)
 
-Included in this setup is a setup to do just that.
 
+
+The example app is included in this pack:
 1. `cd node_modules/react-magisto-player/example/app && yarn`
 2.  `npm run start`
 3.  navigate to `http://localhost:3000` to see your app

@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { MagistoPlayer } from 'components';
 import { MagistoPlayerEditor } from './magistoPlayerEditor';
@@ -28,6 +27,8 @@ export default class App extends Component {
           loop: 0,
           autoplay: 1,
           splash: 0,
+          player_width: 'auto',
+          player_height: 'auto',
           controlsColor: '#ffffff',
           hoverColor: '#51eab2',
           progressColor: '#51eab2',
@@ -40,7 +41,11 @@ export default class App extends Component {
         this.setState({video_hash});
     }
     onAspectRatioChange(aspect_ratio){
+        if(aspect_ratio == '16:9' || aspect_ratio == '1:1' || aspect_ratio == '4:3' || aspect_ratio == '3:4' || aspect_ratio == 'auto'){
+            this.setState({player_width: 'auto',player_height: 'auto'});
+        }
         this.setState({aspect_ratio});
+
     }
     onLoopChange(loop){
         this.setState({loop});
@@ -52,12 +57,17 @@ export default class App extends Component {
         this.setState({splash});
     }
     onHeightChange(player_height){
-        this.onAspectRatioChange('auto');
-        this.setState({player_height});
+        if(!!player_height){
+            this.onAspectRatioChange('auto');
+            this.setState({player_height});
+        }
     }
     onWidthChange(player_width){
-        this.onAspectRatioChange('auto');
-        this.setState({player_width});
+        if(!!player_width){
+            this.onAspectRatioChange('auto');
+            this.setState({player_width});
+        }
+
     }
 
 
@@ -76,13 +86,17 @@ export default class App extends Component {
     renderMagistoPlayerString(){
         let string_array = [];
         let properties = '';
-        for(const key in this.state){
-            if(this.state.player_width !== 'auto' || this.state.player_height !== 'auto'){
-                if(key !== 'aspect_ratio'){
-                    string_array.push(key+'='+this.state[key])
+        for(let key in this.state){
+            if(this.state.player_width === 'auto' && this.state.player_height === 'auto'){
+                if(key !== 'player_width' && key !== 'player_height' && !!this.state.player_width && this.state.player_height){
+                    string_array.push(`${key}="${this.state[key]}"`);
                 }
-            } else{
-                string_array.push(key+'='+this.state[key])
+            } else {
+                if(key !== 'aspect_ratio'){
+                    if(key == 'player_width') key = 'width';
+                    if(key == 'player_height') key = 'height';
+                    string_array.push(`${key}="${this.state[key]}"`);
+                }
             }
         }
         properties = string_array.join(' \n\t');
