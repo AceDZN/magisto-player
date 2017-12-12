@@ -5,7 +5,8 @@ import React,{ Component } from 'react';
 const magistoServer= 'https://www.magisto.com/';
 const embed_link = `embed/player/`;
 
-function getSizeRightType(size,min=50,max=1000){
+export function getSizeRightType(size,min=50,max=1000){
+    debugger
     size = size.replace(' ','');
     if(size == 'auto' || size == '')
         return 'auto';

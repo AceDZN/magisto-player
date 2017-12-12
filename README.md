@@ -39,6 +39,7 @@ you can access the Live Preview here:
 
 
 The example app is included in this pack:
-1. `cd node_modules/react-magisto-player/example/app && yarn`
-2.  `npm run start`
-3.  navigate to `http://localhost:3000` to see your app
+1. `cd node_modules/react-magisto-player/example_app`
+2. `npm install`
+3. `gulp serve`
+4. navigate to `http://localhost:9000` to see the editor

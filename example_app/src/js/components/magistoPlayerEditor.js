@@ -36,7 +36,7 @@ export class MagistoPlayerEditor extends Component {
                     <div className="form-group row">
                         <label htmlFor="aspectRatio" className="col-md-6 col-form-label">Aspect Ratio</label>
                         <div className="col-md-6">
-                            <input type="text" className="form-control" id="aspectRatio" placeholder="Aspect Ratio (16:9)" onChange={(event)=>this.props.onAspectRatioChange(event.target.value)} />
+                            <input type="text" className="form-control" id="aspectRatio" placeholder="Aspect Ratio (16:9)" value={this.props.aspect_ratio} onChange={(event)=>this.props.onAspectRatioChange(event.target.value)} />
                         </div>
                     </div>
                     <div className="form-group row">
