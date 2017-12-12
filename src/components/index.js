@@ -5,6 +5,29 @@ import React,{ Component } from 'react';
 const magistoServer= 'https://www.magisto.com/';
 const embed_link = `embed/player/`;
 
+function getSizeRightType(size,min=50,max=1000){
+    size = size.replace(' ','');
+    if(size == 'auto' || size == '')
+        return 'auto';
+
+    let temp_prop = 'px';   // default size selector
+
+    if(size.indexOf('%') !== -1){ // Check for % selector
+        temp_prop = '%'; //size = size.replace('%','');
+        min = 0; max = 100;
+    }
+
+
+    if(size.indexOf('px') !== -1) // Check for px selector
+        temp_prop = 'px'; //size = size.replace('px','');
+
+    size = size.replace(/[^0-9]+/g, ""); // size contain only numbers
+
+    if(parseInt(size) >= min && parseInt(size) <= max){
+        return (size +''+ temp_prop);
+    }
+}
+
 export default class MagistoPlayer extends Component {
     constructor(props) {
       super(props);
@@ -15,6 +38,8 @@ export default class MagistoPlayer extends Component {
           poster: this.props.poster || false,
           aspect_ratio: this.props.aspect_ratio || '16:9',
           loop: this.props.loop || 1,
+          player_width: 'auto',
+          player_height: 'auto',
           styling: {
               bgcolor: this.props.bgcolor || false,
               controlsColor: this.props.controlsColor || "red",//false,
@@ -42,6 +67,24 @@ export default class MagistoPlayer extends Component {
       }
       if (nextProps.autoplay !== this.state.autoplay) {
           this.setState({ autoplay: nextProps.autoplay });
+      }
+      if (!!nextProps.width) {
+          if(nextProps.width =='auto'){
+              this.setState({ aspect_ratio: "16:9" });
+              return
+          }
+          let new_width='';
+          if(nextProps.width !== this.state.player_width) {
+              new_width = getSizeRightType(nextProps.width);
+          }
+          this.setState({ player_width: new_width });
+      }
+      if (!!nextProps.height) {
+          let new_height='';
+          if(nextProps.height !== this.state.player_height) {
+              new_height = getSizeRightType(nextProps.height);
+          }
+          this.setState({ player_height: new_height });
       }
     }
 
@@ -91,9 +134,26 @@ export default class MagistoPlayer extends Component {
         return video_src;
     }
     renderMagistoPlayer(){
-        const apectRatioContainer = { position: 'relative', width: '100%', paddingBottom: this.getAspectRatioPadding() };
-        const floatingPlayer = { position: 'absolute', width: '100%', height: '100%', top: 0, left:0, bottom: 0, right:0 };
+        let apectRatioContainer = {
+            position: 'relative', width: '100%', paddingBottom: this.getAspectRatioPadding()
+        };
+
+        let floatingPlayer = {
+            position: 'absolute',
+            width: '100%', height: '100%',
+            top: 0, left:0, bottom: 0, right:0
+        };
+        debugger
+        if((!!this.state.player_width && this.state.player_width!=='auto') || (!!this.state.player_height && this.state.player_height!=='auto')){
+            apectRatioContainer.position = floatingPlayer.position = 'relative';
+            apectRatioContainer.paddingBottom = '0';
+            floatingPlayer.width = this.state.player_width;
+            floatingPlayer.height = this.state.player_height;
+            floatingPlayer.margin = '0 auto';
+
+        }
         const magistoFrame = {width: '100%', height: '100%', border:'0px solid transparent'};
+
         return (
             <div style={{dispaly:'block'}}>
                 <div className="aspect-ratio-container" style={apectRatioContainer}>
@@ -102,6 +162,8 @@ export default class MagistoPlayer extends Component {
                             style={magistoFrame}
                             src={this.getPlayerURL()}
                             allowFullScreen="true"
+                            width="100%"
+                            height="100%"
                             ></iframe>
                     </div>
                 </div>
@@ -125,8 +187,10 @@ export default class MagistoPlayer extends Component {
                 return '125%'; break;
             case '1:1':
                 return '100%'; break;
+            case 'auto':
+                return '0px'; break;
             default:
-                return '56.25%';
+                return '0';
         }
     }
     render() {
