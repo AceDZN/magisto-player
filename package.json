@@ -1,10 +1,13 @@
 {
   "name": "react-magisto-player",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "React Component for Embedding Magisto Player in apps",
   "main": "dist/index.js",
   "license": "GNU General Public License",
-  "repository" : { "type" : "git" , "url" : "https://github.com/AceDZN/magisto-player"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AceDZN/magisto-player"
+  },
   "scripts": {
     "lint": "eslint src",
     "build": "webpack",
