@@ -20,14 +20,28 @@ export class MagistoPlayerEditor extends Component {
       }
     }
     componentWillReceiveProps(nextProps){
-        if(nextProps.aspectRatio)
-            this.setState(aspect_ratio: nextProps.aspect_ratio);
+        if(nextProps.aspect_ratio)
+            this.setState({aspect_ratio: nextProps.aspect_ratio});
+
+        if(nextProps.width && nextProps.width!== "0" && nextProps.width !== this.state.player_width){
+            this.setState({player_width: nextProps.width});
+        }
+        if(nextProps.height && nextProps.height!== "0" && nextProps.height !== this.state.player_height){
+            this.setState({player_height: nextProps.height});
+        }
+
     }
     changeVideo(video){
         if(video.hash)
             this.props.onVideoChange(video.hash);
         if(video.ratio){
             this.onAspectRatioChange(video.ratio);
+            if(video.ratio == "16:9" || video.ratio == "4:3" || video.ratio == "3:4" || video.ratio == "1:1"){
+                this.props.onWidthChange("auto");
+                this.props.onHeightChange("auto");
+
+            }
+
         }
     }
     onAspectRatioChange(aspect_ratio){
@@ -41,6 +55,7 @@ export class MagistoPlayerEditor extends Component {
                         <input type="text" className="form-control" id="videoHash" placeholder={this.props.video_hash} onChange={(event)=>this.props.onVideoChange(event.target.value)} />
                     </FormRow>
                     <FormRow label="Aspect Ratio" input_id="aspectRatio">
+                    {this.state.aspect_ratio}
                         <input type="text" className="form-control" id="aspectRatio" placeholder={this.props.aspect_ratio} onChange={(event)=>this.onAspectRatioChange(event.target.value)}  value={this.state.aspect_ratio} />
                     </FormRow>
                     <FormRow label="Autoplay" input_id="inlineAutoplayOptions">
@@ -80,16 +95,16 @@ export class MagistoPlayerEditor extends Component {
                         </div>
                     </FormRow>
                     <div className="form-group row">
-                        <div className="col-md-6">
+                        <div className="col-6">
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon">width</div>
-                                <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="auto" value={this.props.player_width} onChange={(event)=>this.props.onWidthChange(event.target.value)} />
+                                <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="auto" value={this.state.player_width} onChange={(event)=>this.props.onWidthChange(event.target.value)} />
                             </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-6">
                             <div className="input-group mb-2 mr-sm-2 mb-sm-0">
                                 <div className="input-group-addon">height</div>
-                                <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="auto" value={this.props.player_height} onChange={(event)=>this.props.onHeightChange(event.target.value)} />
+                                <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="auto" value={this.state.player_height} onChange={(event)=>this.props.onHeightChange(event.target.value)} />
                             </div>
                         </div>
                     </div>

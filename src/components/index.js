@@ -6,7 +6,6 @@ const magistoServer= 'https://www.magisto.com/';
 const embed_link = `embed/player/`;
 
 export function getSizeRightType(size,min=50,max=1000){
-    debugger
     size = size.replace(' ','');
     if(size == 'auto' || size == '')
         return 'auto';

@@ -49,8 +49,8 @@ ul.list-group{
         &:before{
             content:'👁️‍🗨️';
             position: absolute;
-            left: -5px;
-            top: 0;
+            left: -15px;
+            top: -5px;;
             font-size: 30px;
             z-index: 2;
 
@@ -64,4 +64,5 @@ ul.list-group{
 
 .card{
     overflow:hidden;
+    margin-bottom:1rem;
 }

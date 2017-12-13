@@ -53,8 +53,8 @@ export default class App extends Component {
           player_width: 'auto',
           player_height: 'auto',
           loop: 0,
-          autoplay: 1,
-          splash: 0,
+          autoplay: 0,
+          splash: 1,
           controlsColor: '#ffffff',
           hoverColor: '#51eab2',
           progressColor: '#51eab2',
@@ -84,7 +84,6 @@ export default class App extends Component {
         this.setState({splash});
     }
     onHeightChange(player_height,min=50,max=1000){
-        debugger
         player_height = getSizeRightType(player_height);
         player_height.replace(' ','');
         if(player_height == '') player_height = 'auto';
@@ -177,7 +176,7 @@ export default class App extends Component {
                                 splash={this.state.splash} onSplashChange={this.onSplashChange}
                                 aspect_ratio={this.state.aspect_ratio} onAspectRatioChange={this.onAspectRatioChange}
                                 width={this.state.player_width} onWidthChange={this.onWidthChange}
-                                height={this.state.player_width} onHeightChange={this.onHeightChange}
+                                height={this.state.player_height} onHeightChange={this.onHeightChange}
 
                                 controlsColor={this.state.controlsColor} onControlsColorChange={this.onControlsColorChange}
                                 hoverColor={this.state.hoverColor} onControlsHoverChange={this.onControlsHoverChange}
