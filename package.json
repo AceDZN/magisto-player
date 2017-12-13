@@ -1,6 +1,6 @@
 {
   "name": "react-magisto-player",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "React Component for Embedding Magisto Player in apps",
   "main": "dist/index.js",
   "license": "GNU General Public License",
