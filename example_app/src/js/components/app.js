@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
 import { ForkBanner } from './fork-banner';
 import { MagistoPlayer } from 'components';
-import { MagistoPlayerEditor, getSizeRightType } from './magistoPlayerEditor';
+import { MagistoPlayerEditor } from './magistoPlayerEditor';
 
+export function getSizeRightType(size,min=50,max=1000){
+    debugger
+    size = size.replace(' ','');
+    if(size == 'auto' || size == '')
+        return 'auto';
+
+    let temp_prop = 'px';   // default size selector
+
+    if(size.indexOf('%') !== -1){ // Check for % selector
+        temp_prop = '%'; //size = size.replace('%','');
+        min = 0; max = 100;
+    }
+
+
+    if(size.indexOf('px') !== -1) // Check for px selector
+        temp_prop = 'px'; //size = size.replace('px','');
+
+    size = size.replace(/[^0-9]+/g, ""); // size contain only numbers
+
+    if(parseInt(size) >= min && parseInt(size) <= max){
+        return (size +''+ temp_prop);
+    } else {
+        return "0"
+    }
+}
 export default class App extends Component {
     constructor(props) {
       super(props);
@@ -25,13 +50,16 @@ export default class App extends Component {
       this.state = {
           video_hash: 'K1UZNF1WRGEpUxxhCzE', // portrait video:
           aspect_ratio: '16:9',
+          player_width: 'auto',
+          player_height: 'auto',
           loop: 0,
           autoplay: 1,
           splash: 0,
           controlsColor: '#ffffff',
           hoverColor: '#51eab2',
           progressColor: '#51eab2',
-          bigSplashButton: '#0a0a3c'
+          bigSplashButton: '#0a0a3c',
+
       }
     }
 
@@ -40,11 +68,11 @@ export default class App extends Component {
         this.setState({video_hash});
     }
     onAspectRatioChange(aspect_ratio){
-        if(aspect_ratio == '16:9' || aspect_ratio == '1:1' || aspect_ratio == '4:3' || aspect_ratio == '3:4'){
-            this.setState({player_width: 'auto',player_height: 'auto'});
-            this.setState({aspect_ratio});
+        if(aspect_ratio == 'auto'){
+            this.setState({aspect_ratio: 'auto'});
+        } else if(aspect_ratio == '16:9' || aspect_ratio == '1:1' || aspect_ratio == '4:3' || aspect_ratio == '3:4'){
+            this.setState({player_width: 'auto',player_height: 'auto', aspect_ratio});
         }
-
     }
     onLoopChange(loop){
         this.setState({loop});
@@ -55,12 +83,23 @@ export default class App extends Component {
     onSplashChange(splash){
         this.setState({splash});
     }
-    onHeightChange(player_height){
-        this.onAspectRatioChange('auto');
+    onHeightChange(player_height,min=50,max=1000){
+        debugger
+        player_height = getSizeRightType(player_height);
+        player_height.replace(' ','');
+        if(player_height == '') player_height = 'auto';
+        if(!!player_height && player_height !== 'auto' && player_height !== '0')
+            this.onAspectRatioChange('auto');
         this.setState({player_height});
+
     }
-    onWidthChange(player_width){
-        this.onAspectRatioChange('auto');
+    onWidthChange(player_width,min=50,max=1000){
+        player_width = getSizeRightType(player_width);
+        player_width.replace(' ','');
+        if(player_width == '') player_width = 'auto';
+        if(!!player_width && player_width !== 'auto' && player_width !== '0')
+            this.onAspectRatioChange('auto');
+
         this.setState({player_width});
     }
 
@@ -81,7 +120,8 @@ export default class App extends Component {
         let string_array = [];
         let properties = '';
         for(let key in this.state){
-            if(this.state.player_width === 'auto' && this.state.player_height === 'auto'){
+
+            if((!this.state.player_width || this.state.player_width === 'auto' || this.state.player_width === '0') && (!this.state.player_height || this.state.player_height === 'auto' || this.state.player_height === '0')){
                 if(key !== 'player_width' && key !== 'player_height'){
                     string_array.push(`${key}="${this.state[key]}"`);
                 }

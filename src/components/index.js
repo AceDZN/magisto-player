@@ -58,6 +58,8 @@ export default class MagistoPlayer extends Component {
           }
       }
       if (nextProps.aspect_ratio !== this.state.aspect_ratio && (nextProps.aspect_ratio == '16:9' || nextProps.aspect_ratio == '4:3' || nextProps.aspect_ratio == '3:4' || nextProps.aspect_ratio == '1:1')) {
+          console.log("NEXT PROPS ASPECT RATIOS",nextProps.aspect_ratio);
+
           this.setState({ aspect_ratio: nextProps.aspect_ratio });
       }
       if (nextProps.loop !== this.state.loop) {
@@ -102,11 +104,6 @@ export default class MagistoPlayer extends Component {
             }
 
 
-
-
-
-
-
         // Set player colour scheme
         let color = '';
         if(!!this.props.bgcolor){
@@ -136,7 +133,7 @@ export default class MagistoPlayer extends Component {
     }
     renderMagistoPlayer(){
         let apectRatioContainer = {
-            position: 'relative', width: '100%', paddingBottom: this.getAspectRatioPadding()
+            position: 'relative', width: '100%', paddingBottom: this.getAspectRatioPadding(this.props.aspect_ratio)
         };
 
         let floatingPlayer = {
@@ -144,19 +141,28 @@ export default class MagistoPlayer extends Component {
             width: '100%', height: '100%',
             top: 0, left:0, bottom: 0, right:0
         };
-        debugger
-        if((!!this.state.player_width && this.state.player_width!=='auto') || (!!this.state.player_height && this.state.player_height!=='auto')){
-            apectRatioContainer.position = floatingPlayer.position = 'relative';
+        console.log(this.props.aspect_ratio,"this.state.aspect_ratio");
+        console.log(this.props.width,"this.state.player_width");
+        console.log(this.props.height,"this.state.player_height");
+
+        if(
+            (!this.state.player_width || (!!this.state.player_width && this.state.player_width!=='auto'))
+            || (!this.state.player_height || (!!this.state.player_height && this.state.player_height!=='auto'))
+        ){
+            apectRatioContainer.position = 'relative';
             apectRatioContainer.paddingBottom = '0';
-            floatingPlayer.width = this.state.player_width;
-            floatingPlayer.height = this.state.player_height;
+            floatingPlayer.position = 'relative';
+            floatingPlayer.width = this.props.width;
+            floatingPlayer.height = this.props.height;
             floatingPlayer.margin = '0 auto';
 
         }
+        console.log(floatingPlayer,"floatingPlayer");
+        console.log(apectRatioContainer,"apectRatioContainer");
         const magistoFrame = {width: '100%', height: '100%', border:'0px solid transparent'};
 
         return (
-            <div style={{dispaly:'block'}}>
+            <div style={{display:'block'}}>
                 <div className="aspect-ratio-container" style={apectRatioContainer}>
                     <div className="floating-player" style={floatingPlayer}>
                         <iframe
@@ -178,8 +184,8 @@ export default class MagistoPlayer extends Component {
             </div>
         )
     }
-    getAspectRatioPadding(){
-        switch(this.state.aspect_ratio) {
+    getAspectRatioPadding(aspect_ratio){
+        switch(aspect_ratio) {
             case '16:9':
                 return '56.25%'; break;
             case '4:3':

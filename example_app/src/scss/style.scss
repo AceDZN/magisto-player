@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900);
 
 body{
-  padding: 100px;
+  padding: 27px 0;
   font-family: 'Roboto',sans-serif;
   font-weight: 300;
 
@@ -29,7 +29,8 @@ ul.list-group{
   top: 0;
   right: 0;
   border: 0;
-  max-width: 50%;
+  max-width: 120px;
+  z-index:5;
   cursor:pointer;
   img{
     max-width: 100%;
